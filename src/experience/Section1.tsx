@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Play, Pause, SkipForward, RotateCcw } from 'lucide-react';
 import { transcript } from '../content/transcript';
 import { soundtrack } from '../audio/soundtrack';
+import { InkPenWritingText } from '../components/InkPenWritingText';
+import { StaggeredSentence } from '../components/StaggeredSentence';
 
 interface Section1Props {
   onUnlockNext: () => void;
@@ -19,12 +21,30 @@ interface CinematicLine {
   spacingBefore?: string;
 }
 
-const LINE_INTERVAL_MS = 3000; // 3 seconds each line as requested
-
 export const Section1: React.FC<Section1Props> = ({ onUnlockNext }) => {
   const t = transcript.section1;
 
   const lines: CinematicLine[] = [
+    {
+      id: 'tired',
+      text: t.tired,
+      category: 'opening',
+      fontFamily: 'font-serif',
+      fontSize: 'text-4xl sm:text-6xl md:text-7xl',
+      color: 'text-neutral-100',
+      extraClasses: 'font-light tracking-wide leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]',
+      spacingBefore: 'pt-2',
+    },
+    {
+      id: 'kapoy',
+      text: t.kapoy,
+      category: 'opening',
+      fontFamily: 'font-serif',
+      fontSize: 'text-3xl sm:text-5xl md:text-6xl',
+      color: 'text-neutral-300/95',
+      extraClasses: 'font-light tracking-wide leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]',
+      spacingBefore: 'mt-8 mb-6',
+    },
     {
       id: 'mind1',
       text: t.mind1,
@@ -138,13 +158,16 @@ export const Section1: React.FC<Section1Props> = ({ onUnlockNext }) => {
   ];
 
   const totalLines = lines.length;
-  // currentStep starts at 0 (first line)
+  // currentStep starts at 0 ("I'm tired. 😔")
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const activeLineRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const timerRef = useRef<number | null>(null);
+  const isUserScrollingRef = useRef<boolean>(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
   // Advance to next line
   const advance = () => {
@@ -159,25 +182,65 @@ export const Section1: React.FC<Section1Props> = ({ onUnlockNext }) => {
     });
   };
 
-  // Timer loop for ~4s per line
+  // User scroll detection: allow sentences to fade in gracefully as user scrolls
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      isUserScrollingRef.current = true;
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isUserScrollingRef.current = false;
+      }, 1500);
+
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY + 45 && !isCompleted) {
+        if (containerRef.current) {
+          const rect = containerRef.current.getBoundingClientRect();
+          // If the letter container is actively in view and reader is scrolling downward
+          if (rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25) {
+            advance();
+          }
+        }
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, [isCompleted, currentStep]);
+
+  // Continuous timer loop with generous timing for the opening lines
   useEffect(() => {
     if (!isPlaying || isCompleted) {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
       return;
     }
 
-    timerRef.current = window.setInterval(() => {
+    // 6.5s for "I'm tired. 😔", 5.5s for "Kapoy na. 😔", 5.5s for "Upon nag write ko ani,", then 4.5s for following lines
+    const lineDuration =
+      currentStep === 0
+        ? 6500
+        : currentStep === 1
+        ? 5500
+        : currentStep === 2
+        ? 5500
+        : 4500;
+
+    timerRef.current = window.setTimeout(() => {
       advance();
-    }, LINE_INTERVAL_MS);
+    }, lineDuration);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [isPlaying, isCompleted, currentStep]);
 
-  // Smooth scroll to newest line gently
+  // Smooth scroll to newest line gently as letter unfolds downwards (only when not actively scrolling)
   useEffect(() => {
-    if (activeLineRef.current) {
+    if (!isUserScrollingRef.current && currentStep >= 2 && activeLineRef.current) {
       activeLineRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
@@ -213,17 +276,36 @@ export const Section1: React.FC<Section1Props> = ({ onUnlockNext }) => {
 
   return (
     <div
+      ref={containerRef}
       onClick={handleScreenClick}
-      className="relative min-h-screen flex flex-col justify-center items-center px-6 py-28 text-center select-none cursor-pointer"
+      className="relative min-h-screen flex flex-col justify-center items-center px-6 py-24 text-center select-none cursor-pointer"
     >
       {/* Main text container */}
       <div className="max-w-2xl w-full flex flex-col items-center letter-paper-backdrop p-6 sm:p-10 rounded-3xl">
+        {/* The Theme Wax Seal Emblem */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center mb-10"
+        >
+          <div className="relative p-1 rounded-full bg-amber-500/10 border border-amber-400/25 shadow-[0_0_30px_rgba(251,191,36,0.2)]">
+            <img
+              src="/icon.jpg"
+              alt="The Message Seal"
+              referrerPolicy="no-referrer"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-inner"
+            />
+          </div>
+        </motion.div>
+
         {lines.map((line, index) => {
           if (index > currentStep) return null;
 
           const isLatest = index === currentStep && !isCompleted;
           const isHeart = line.category === 'heartFocus';
           const isSorry = line.category === 'sorry';
+          const isPenWritten = line.id === 'mind1';
 
           return (
             <div
@@ -231,38 +313,35 @@ export const Section1: React.FC<Section1Props> = ({ onUnlockNext }) => {
               ref={isLatest ? activeLineRef : null}
               className={`w-full transition-all duration-1000 ${line.spacingBefore || ''}`}
             >
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  x: -20,
-                  y: 10,
-                  filter: 'blur(12px)',
-                  scale: isHeart || isSorry ? 0.92 : 0.98,
-                }}
-                animate={{
-                  opacity: isLatest ? 1 : 0.42,
-                  x: 0,
-                  y: 0,
-                  filter: 'blur(0px)',
-                  scale: 1,
-                }}
-                transition={{
-                  duration: 1.5,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className={`transition-opacity duration-1000 ${
-                  isLatest ? 'scale-[1.02]' : 'hover:opacity-75'
-                }`}
-              >
-                {/* Words animated in */}
-                <p
-                  className={`${line.fontFamily} ${line.fontSize} ${line.color} ${
-                    line.extraClasses || ''
-                  }`}
-                >
-                  {line.text}
-                </p>
-              </motion.div>
+              {isPenWritten ? (
+                /* Real-time Ink Pen Nib Trailing Effect for 'Upon nag write ko ani,' */
+                <div className="w-full flex justify-center py-2">
+                  <p
+                    className={`${line.fontFamily} ${line.fontSize} ${line.color} ${
+                      line.extraClasses || ''
+                    }`}
+                  >
+                    <InkPenWritingText
+                      text={line.text}
+                      isWriting={index <= currentStep}
+                      speed={50}
+                      showNib={true}
+                    />
+                  </p>
+                </div>
+              ) : (
+                /* Staggered word-by-word entrance animation for letter sentences */
+                <StaggeredSentence
+                  text={line.text}
+                  fontFamily={line.fontFamily}
+                  fontSize={line.fontSize}
+                  color={line.color}
+                  extraClasses={line.extraClasses}
+                  isLatest={isLatest}
+                  isActive={true}
+                  staggerDelay={isHeart || isSorry ? 0.08 : 0.055}
+                />
+              )}
             </div>
           );
         })}

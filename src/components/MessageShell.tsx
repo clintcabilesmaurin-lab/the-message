@@ -7,12 +7,10 @@ import { Section2 } from '../experience/Section2';
 import { Section3 } from '../experience/Section3';
 import { Section4 } from '../experience/Section4';
 import { Section5 } from '../experience/Section5';
-import { OpeningSequence } from './OpeningSequence';
 import { CinematicBlock } from './CinematicBlock';
 import { transcript } from '../content/transcript';
 
 export { CinematicBlock } from './CinematicBlock';
-export { OpeningSequence } from './OpeningSequence';
 
 export const MessageShell: React.FC = () => {
   const [unlockedSections, setUnlockedSections] = useState<SectionKey[]>(['s1']);
@@ -20,7 +18,6 @@ export const MessageShell: React.FC = () => {
   const [atmosphere, setAtmosphere] = useState<Atmosphere>('dark');
   const [isNearEnd, setIsNearEnd] = useState(false);
 
-  const openingRef = useRef<HTMLDivElement | null>(null);
   const section1Ref = useRef<HTMLDivElement | null>(null);
   const section2Ref = useRef<HTMLDivElement | null>(null);
   const section3Ref = useRef<HTMLDivElement | null>(null);
@@ -70,10 +67,6 @@ export const MessageShell: React.FC = () => {
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 120);
-  };
-
-  const handleBeginReading = () => {
-    section1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   // Observe which section is currently centered in viewport
@@ -157,12 +150,7 @@ export const MessageShell: React.FC = () => {
 
       {/* Unfolding continuous reading stream */}
       <main className="w-full">
-        {/* GSAP Opening Sequence: Initial lines with 4-second delay */}
-        <div ref={openingRef} id="opening-sequence">
-          <OpeningSequence onBeginReading={handleBeginReading} />
-        </div>
-
-        {/* Section 1 */}
+        {/* Section 1: Continuous unfolding letter starting from I'm tired and Kapoy na */}
         <div ref={section1Ref} id="section-1">
           <Section1 onUnlockNext={() => unlockAndScrollTo('s2')} />
         </div>
