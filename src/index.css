@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'EB Garamond', Georgia, Cambria, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Cinzel', serif;
+    --font-hand: 'Caveat', cursive;
+  }
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-hand {
+  font-family: var(--font-hand);
+}
+
+/* Atmospheric animations */
+@keyframes breathing {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.04);
+  }
+}
+
+.animate-breathe {
+  animation: breathing 7s ease-in-out infinite;
+}
+
+@keyframes lightBeam {
+  0% {
+    opacity: 0.1;
+    transform: translateY(-20px) scale(0.95);
+  }
+  50% {
+    opacity: 0.35;
+    transform: translateY(0px) scale(1.05);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translateY(-20px) scale(0.95);
+  }
+}
+
+.animate-light-beam {
+  animation: lightBeam 11s ease-in-out infinite;
+}
+
+/* Subtle film grain texture */
+.film-grain {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Subtle off-white and cream paper texture overlay with fine noise filter */
+.paper-noise-filter {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.98  0 0 0 0 0.95  0 0 0 0 0.91  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 190px 190px;
+}
+
+/* Cream-colored tactile paper parchment gradient */
+.paper-texture-overlay {
+  background: radial-gradient(
+    circle at 50% 25%,
+    rgba(254, 250, 242, 0.06) 0%,
+    rgba(249, 243, 233, 0.04) 55%,
+    rgba(240, 233, 220, 0.02) 100%
+  );
+}
+
+/* Tactile paper sheet backing behind letter body */
+.letter-paper-backdrop {
+  background: rgba(250, 246, 236, 0.02);
+  border: 1px solid rgba(245, 238, 222, 0.055);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Volumetric light beam variants */
+.light-beam-shaft {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 252, 245, 0.015) 25%,
+    rgba(255, 248, 235, 0.055) 48%,
+    rgba(255, 245, 225, 0.075) 50%,
+    rgba(255, 248, 235, 0.055) 52%,
+    rgba(255, 252, 245, 0.015) 75%,
+    transparent 100%
+  );
+}
+
+.light-beam-shaft-spiritual {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(216, 180, 254, 0.02) 20%,
+    rgba(254, 240, 138, 0.07) 48%,
+    rgba(253, 230, 138, 0.11) 50%,
+    rgba(254, 240, 138, 0.07) 52%,
+    rgba(192, 132, 252, 0.02) 80%,
+    transparent 100%
+  );
+}
+
+.light-beam-shaft-warm {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(110, 231, 183, 0.02) 20%,
+    rgba(254, 240, 138, 0.07) 47%,
+    rgba(253, 224, 71, 0.10) 50%,
+    rgba(254, 240, 138, 0.07) 53%,
+    rgba(52, 211, 153, 0.02) 80%,
+    transparent 100%
+  );
+}
+
+.light-beam-shaft-golden {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(251, 146, 60, 0.03) 20%,
+    rgba(252, 211, 77, 0.09) 47%,
+    rgba(251, 191, 36, 0.14) 50%,
+    rgba(252, 211, 77, 0.09) 53%,
+    rgba(245, 158, 11, 0.03) 80%,
+    transparent 100%
+  );
+}
+
+/* Hide scrollbar while keeping ability to scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

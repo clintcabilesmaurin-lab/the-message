@@ -1,0 +1,6 @@
+{
+  "name": "The Message",
+  "description": "An intimate, interactive letter experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
