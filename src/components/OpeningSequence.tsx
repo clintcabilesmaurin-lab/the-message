@@ -109,7 +109,24 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onBeginReading
       <div className="absolute inset-0 bg-radial from-transparent via-neutral-950/40 to-neutral-950/90 pointer-events-none" />
 
       {/* Main typography container */}
-      <div className="relative z-10 max-w-2xl mx-auto space-y-12">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-10">
+        {/* The Theme Wax Seal Emblem */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center"
+        >
+          <div className="relative p-1 rounded-full bg-amber-500/10 border border-amber-400/25 shadow-[0_0_30px_rgba(251,191,36,0.2)]">
+            <img
+              src="/icon.jpg"
+              alt="The Message Seal"
+              referrerPolicy="no-referrer"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-inner"
+            />
+          </div>
+        </motion.div>
+
         {/* Line 1 */}
         <h1
           ref={line1Ref}
