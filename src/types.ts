@@ -5,7 +5,11 @@ export type Atmosphere =
   | 'spiritual'
   | 'dawn'
   | 'warm'
-  | 'golden';
+  | 'golden'
+  | 'rose'
+  | 'tender';
+
+export type ActiveView = 'home' | 'clint' | 'maica';
 
 export type PresentationMode = 'reading' | 'emphasis' | 'cinematic' | 'doorway';
 
@@ -17,3 +21,4 @@ export interface LetterBlock {
 }
 
 export type SectionKey = 's1' | 's2' | 's3' | 's4' | 's5';
+

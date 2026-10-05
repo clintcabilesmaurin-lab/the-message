@@ -15,8 +15,8 @@ export const Section4: React.FC<Section4Props> = ({ onUnlockNext }) => {
   };
 
   return (
-    <div className="relative min-h-screen py-24 px-4 sm:px-6 max-w-2xl mx-auto font-sans leading-relaxed text-neutral-200">
-      <div className="space-y-16 p-6 sm:p-10 rounded-3xl letter-paper-backdrop">
+    <div className="relative min-h-screen py-24 px-4 sm:px-8 max-w-4xl lg:max-w-5xl mx-auto font-sans leading-relaxed text-neutral-200">
+      <div className="space-y-16 p-6 sm:p-14 rounded-3xl letter-paper-backdrop">
         {/* Playful Opening - Warm relief after Section 3 */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

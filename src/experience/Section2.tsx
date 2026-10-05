@@ -11,8 +11,8 @@ export const Section2: React.FC<Section2Props> = ({ onUnlockNext }) => {
   const t = transcript.section2;
 
   return (
-    <div className="min-h-screen py-16 px-4 sm:px-6 max-w-2xl mx-auto font-sans leading-relaxed text-neutral-300">
-      <div className="space-y-16 p-6 sm:p-10 rounded-3xl letter-paper-backdrop">
+    <div className="min-h-screen py-16 px-4 sm:px-8 max-w-4xl lg:max-w-5xl mx-auto font-sans leading-relaxed text-neutral-300">
+      <div className="space-y-16 p-6 sm:p-14 rounded-3xl letter-paper-backdrop">
         {/* History & Admiration - Typewriter reveal for intimate letter feel */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

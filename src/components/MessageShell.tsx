@@ -12,7 +12,15 @@ import { transcript } from '../content/transcript';
 
 export { CinematicBlock } from './CinematicBlock';
 
-export const MessageShell: React.FC = () => {
+interface MessageShellProps {
+  onBackToHome?: () => void;
+  onGoToMaicaLetter?: () => void;
+}
+
+export const MessageShell: React.FC<MessageShellProps> = ({
+  onBackToHome,
+  onGoToMaicaLetter,
+}) => {
   const [unlockedSections, setUnlockedSections] = useState<SectionKey[]>(['s1']);
   const [activeSection, setActiveSection] = useState<SectionKey>('s1');
   const [atmosphere, setAtmosphere] = useState<Atmosphere>('dark');
@@ -159,7 +167,7 @@ export const MessageShell: React.FC = () => {
         {unlockedSections.includes('s2') && (
           <div ref={section2Ref} id="section-2" className="transition-opacity duration-1000">
             {/* Major Emotional Moment: Vulnerable UI with 3-second line-by-line reveal */}
-            <div id="vulnerable-ui" className="max-w-2xl mx-auto px-6 pt-16 scroll-mt-10">
+            <div id="vulnerable-ui" className="max-w-4xl lg:max-w-5xl mx-auto px-6 sm:px-10 pt-16 scroll-mt-10">
               <CinematicBlock
                 id="cinematic-vulnerability"
                 title="Vulnerability"
@@ -192,7 +200,7 @@ export const MessageShell: React.FC = () => {
 
         {/* Major Emotional Moment: CinematicBlock for the Cross Revelation */}
         {unlockedSections.includes('s4') && (
-          <div className="max-w-2xl mx-auto px-6">
+          <div className="max-w-4xl lg:max-w-5xl mx-auto px-6 sm:px-10">
             <CinematicBlock
               id="cinematic-cross"
               title="The Turning Point"
@@ -223,7 +231,7 @@ export const MessageShell: React.FC = () => {
         {/* Section 5: The Anniversary Celebration & Promise */}
         {unlockedSections.includes('s5') && (
           <div ref={section5Ref} id="section-5" className="transition-opacity duration-1000">
-            <div className="max-w-2xl mx-auto px-6">
+            <div className="max-w-4xl lg:max-w-5xl mx-auto px-6 sm:px-10">
               <CinematicBlock
                 id="cinematic-anniversary"
                 title="A Lifetime Promise"
@@ -240,6 +248,29 @@ export const MessageShell: React.FC = () => {
               />
             </div>
             <Section5 onNearEnd={() => setIsNearEnd(true)} />
+
+            {/* Bottom Letter Transition Controls */}
+            <div className="max-w-4xl lg:max-w-5xl mx-auto px-6 sm:px-10 pt-12 pb-24 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              {onBackToHome && (
+                <button
+                  onClick={onBackToHome}
+                  className="w-full sm:w-auto px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-neutral-300 border border-white/15 font-serif text-sm transition-all shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-xl flex items-center justify-center gap-2"
+                >
+                  <span>Return to Anniversary Archive</span>
+                </button>
+              )}
+
+              {onGoToMaicaLetter && (
+                <button
+                  onClick={onGoToMaicaLetter}
+                  className="w-full sm:w-auto px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-rose-200 border border-rose-400/35 font-serif text-sm transition-all shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-xl flex items-center justify-center gap-2 group hover:border-rose-400/60"
+                >
+                  <span className="text-rose-300">♡</span>
+                  <span>Read Maica's Response Letter</span>
+                  <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              )}
+            </div>
           </div>
         )}
       </main>

@@ -18,8 +18,8 @@ export const Section3: React.FC<Section3Props> = ({ onUnlockNext, onAtmosphereCh
   };
 
   return (
-    <div className="min-h-screen py-24 px-4 sm:px-6 max-w-2xl mx-auto font-sans leading-relaxed text-neutral-300">
-      <div className="space-y-16 p-6 sm:p-10 rounded-3xl letter-paper-backdrop">
+    <div className="min-h-screen py-24 px-4 sm:px-8 max-w-4xl lg:max-w-5xl mx-auto font-sans leading-relaxed text-neutral-300">
+      <div className="space-y-16 p-6 sm:p-14 rounded-3xl letter-paper-backdrop">
         {/* Section 3A: "Maybe I'm Not Enough" */}
         <motion.div
           initial={{ opacity: 0, x: -28, filter: 'blur(8px)', scale: 0.98 }}

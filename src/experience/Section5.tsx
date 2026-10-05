@@ -13,8 +13,8 @@ export const Section5: React.FC<Section5Props> = ({ onNearEnd }) => {
   const t = transcript.section5;
 
   return (
-    <div className="min-h-screen py-24 px-4 sm:px-6 max-w-2xl mx-auto font-sans leading-relaxed text-amber-50">
-      <div className="space-y-16 p-6 sm:p-10 rounded-3xl letter-paper-backdrop border-amber-500/10">
+    <div className="min-h-screen py-24 px-4 sm:px-8 max-w-4xl lg:max-w-5xl mx-auto font-sans leading-relaxed text-amber-50">
+      <div className="space-y-16 p-6 sm:p-14 rounded-3xl letter-paper-backdrop border-amber-500/10">
         {/* Section 5A: The Anniversary Reveal */}
         <motion.div
           initial={{ opacity: 0, x: -30, filter: 'blur(10px)', scale: 0.94 }}

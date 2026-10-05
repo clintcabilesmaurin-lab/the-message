@@ -281,7 +281,7 @@ export const Section1: React.FC<Section1Props> = ({ onUnlockNext }) => {
       className="relative min-h-screen flex flex-col justify-center items-center px-6 py-24 text-center select-none cursor-pointer"
     >
       {/* Main text container */}
-      <div className="max-w-2xl w-full flex flex-col items-center letter-paper-backdrop p-6 sm:p-10 rounded-3xl">
+      <div className="max-w-4xl lg:max-w-5xl w-full flex flex-col items-center letter-paper-backdrop p-6 sm:p-14 rounded-3xl">
         {/* The Theme Wax Seal Emblem */}
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}

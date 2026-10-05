@@ -83,11 +83,38 @@
   );
 }
 
-/* Tactile paper sheet backing behind letter body */
+/* Tactile paper sheet backing behind letter body with modern translucent glassmorphism */
 .letter-paper-backdrop {
-  background: rgba(250, 246, 236, 0.02);
-  border: 1px solid rgba(245, 238, 222, 0.055);
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Translucent glass utility classes */
+.glass-translucent {
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.glass-translucent-rose {
+  background: rgba(244, 63, 94, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(251, 113, 133, 0.22);
+  box-shadow: 0 15px 35px -5px rgba(244, 63, 94, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.glass-translucent-amber {
+  background: rgba(251, 191, 36, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(251, 191, 36, 0.24);
+  box-shadow: 0 15px 35px -5px rgba(251, 191, 36, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 /* Volumetric light beam variants */

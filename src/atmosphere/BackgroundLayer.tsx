@@ -15,32 +15,38 @@ interface BackgroundLayerProps {
  *  - Section 5 (golden): celebratory golden hour sunset, molten amber glow, and romantic hearth warmth
  */
 export const BackgroundLayer: React.FC<BackgroundLayerProps> = ({ atmosphere }) => {
-  // Base linear gradient foundation
+  // Base linear gradient foundation (ultra-translucent so whole background image shines through vividly)
   const getBaseGradient = () => {
     switch (atmosphere) {
       case 'dark':
         // Section 1: Deep night, quiet solitude, starlit dark room
-        return 'bg-gradient-to-b from-[#030407] via-[#080911] to-[#040508]';
+        return 'bg-gradient-to-b from-[#030407]/30 via-transparent to-[#040508]/40';
       case 'cold':
         // Section 2: Cold grey mist, emotional distance, misty mountains
-        return 'bg-gradient-to-b from-[#080b0f] via-[#101620] to-[#0a0e13]';
+        return 'bg-gradient-to-b from-[#080b0f]/30 via-transparent to-[#0a0e13]/40';
       case 'heavy':
         // Section 3A: Midnight storm, emotional exhaustion, deep indigo darkness
-        return 'bg-gradient-to-b from-[#06070d] via-[#0e1022] to-[#070710]';
+        return 'bg-gradient-to-b from-[#06070d]/35 via-transparent to-[#070710]/45';
       case 'spiritual':
         // Section 3B: Sacred stillness, Calvary remembrance, celestial violet-indigo
-        return 'bg-gradient-to-b from-[#08091a] via-[#16173a] to-[#0d0f24]';
+        return 'bg-gradient-to-b from-[#08091a]/30 via-transparent to-[#0d0f24]/40';
       case 'dawn':
         // Section 3C: Relief, light breaking over the ridge, morning mist
-        return 'bg-gradient-to-b from-[#0b0e18] via-[#161928] to-[#1f1622]';
+        return 'bg-gradient-to-b from-[#0b0e18]/25 via-transparent to-[#1f1622]/35';
       case 'warm':
         // Section 4: The Green Forest, lush canopy, cream & dappled golden hour sunlight
-        return 'bg-gradient-to-b from-[#071109] via-[#102214] to-[#09140b]';
+        return 'bg-gradient-to-b from-[#071109]/25 via-transparent to-[#09140b]/35';
       case 'golden':
         // Section 5: Celebratory anniversary, deep molten amber, romantic sunset warmth
-        return 'bg-gradient-to-b from-[#140b04] via-[#2a1608] to-[#160a03]';
+        return 'bg-gradient-to-b from-[#140b04]/25 via-transparent to-[#160a03]/35';
+      case 'rose':
+        // Maica's letter: Intimate rosewood, soft blush candlelight, romantic warmth
+        return 'bg-gradient-to-b from-[#12070c]/25 via-transparent to-[#13080e]/35';
+      case 'tender':
+        // Maica's emotional reassurance: Deep velvet burgundy, soothing lavender ember
+        return 'bg-gradient-to-b from-[#0f0914]/25 via-transparent to-[#120918]/35';
       default:
-        return 'bg-[#050507]';
+        return 'bg-black/25';
     }
   };
 
@@ -52,6 +58,8 @@ export const BackgroundLayer: React.FC<BackgroundLayerProps> = ({ atmosphere }) 
       case 'warm':
         return 'light-beam-shaft-warm';
       case 'golden':
+      case 'rose':
+      case 'tender':
         return 'light-beam-shaft-golden';
       default:
         return 'light-beam-shaft';
@@ -59,7 +67,7 @@ export const BackgroundLayer: React.FC<BackgroundLayerProps> = ({ atmosphere }) 
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 transition-colors duration-1000 ease-in-out overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-[1] transition-colors duration-1000 ease-in-out overflow-hidden">
       {/* 1. Base linear gradient */}
       <div className={`absolute inset-0 ${getBaseGradient()} transition-all duration-1000`} />
 
@@ -135,6 +143,35 @@ export const BackgroundLayer: React.FC<BackgroundLayerProps> = ({ atmosphere }) 
         }}
       />
 
+      {/* Rose atmosphere (Maica's letter): Soft blush petals, candlelit romance */}
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 pointer-events-none ${
+          atmosphere === 'rose' ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          background: `
+            radial-gradient(circle at 50% 28%, rgba(251, 113, 133, 0.22) 0%, rgba(244, 63, 94, 0.14) 32%, rgba(225, 29, 72, 0.06) 58%, transparent 80%),
+            radial-gradient(ellipse at 50% 92%, rgba(253, 164, 175, 0.18) 0%, rgba(217, 70, 239, 0.10) 40%, transparent 75%),
+            radial-gradient(circle at 80% 45%, rgba(254, 205, 211, 0.09) 0%, transparent 55%),
+            radial-gradient(circle at 20% 60%, rgba(244, 114, 182, 0.08) 0%, transparent 50%)
+          `,
+        }}
+      />
+
+      {/* Tender atmosphere: Deep reassuring lavender & burgundy embrace */}
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 pointer-events-none ${
+          atmosphere === 'tender' ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          background: `
+            radial-gradient(circle at 50% 30%, rgba(216, 180, 254, 0.20) 0%, rgba(192, 132, 252, 0.12) 35%, rgba(147, 51, 234, 0.06) 60%, transparent 80%),
+            radial-gradient(ellipse at 50% 95%, rgba(244, 114, 182, 0.16) 0%, rgba(168, 85, 247, 0.09) 45%, transparent 75%),
+            radial-gradient(circle at 25% 40%, rgba(251, 191, 36, 0.08) 0%, transparent 50%)
+          `,
+        }}
+      />
+
       {/* 3. Subtle off-white cream paper texture overlay */}
       <div className="absolute inset-0 paper-texture-overlay pointer-events-none transition-opacity duration-1000" />
 
@@ -157,20 +194,28 @@ export const BackgroundLayer: React.FC<BackgroundLayerProps> = ({ atmosphere }) 
             ? 'bg-emerald-300/[0.06]'
             : atmosphere === 'golden'
             ? 'bg-amber-400/[0.10]'
+            : atmosphere === 'rose'
+            ? 'bg-rose-300/[0.09]'
+            : atmosphere === 'tender'
+            ? 'bg-purple-300/[0.08]'
             : atmosphere === 'cold'
             ? 'bg-sky-400/[0.03]'
             : 'bg-white/[0.02]'
         }`}
       />
 
-      {/* 7. Secondary accent glow for spiritual and golden emotional peaks */}
-      {(atmosphere === 'spiritual' || atmosphere === 'golden' || atmosphere === 'warm') && (
+      {/* 7. Secondary accent glow for spiritual, golden, rose and warm emotional peaks */}
+      {(atmosphere === 'spiritual' || atmosphere === 'golden' || atmosphere === 'warm' || atmosphere === 'rose' || atmosphere === 'tender') && (
         <div
           className={`absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[65vw] max-w-3xl h-[45vh] rounded-full blur-[140px] pointer-events-none transition-all duration-1000 animate-light-beam ${
             atmosphere === 'golden'
               ? 'bg-amber-600/[0.09]'
               : atmosphere === 'warm'
               ? 'bg-emerald-600/[0.07]'
+              : atmosphere === 'rose'
+              ? 'bg-rose-500/[0.08]'
+              : atmosphere === 'tender'
+              ? 'bg-fuchsia-600/[0.07]'
               : 'bg-purple-500/[0.06]'
           }`}
         />
